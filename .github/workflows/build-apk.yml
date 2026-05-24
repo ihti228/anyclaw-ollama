@@ -21,11 +21,13 @@ jobs:
         with:
           node-version: "21"
 
-      - name: Enable corepack and install dependencies
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm install
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
       - name: Build Vue frontend
         run: pnpm run build:frontend
