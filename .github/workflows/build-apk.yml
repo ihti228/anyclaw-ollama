@@ -29,8 +29,12 @@ jobs:
         working-directory: apps/android
         run: ./gradlew :app:assemblePlayDebug
 
-      - name: Rename APK
-        run: cp apps/android/app/build/outputs/apk/play/debug/app-play-debug.apk apps/android/app/build/outputs/apk/play/debug/anyclaw.apk
+      - name: Find and rename APK
+        run: |
+          find apps/android/app/build/outputs/apk -name "*.apk" -type f
+          APK_PATH=$(find apps/android/app/build/outputs/apk -name "*.apk" -type f | head -1)
+          echo "Found APK: $APK_PATH"
+          cp "$APK_PATH" apps/android/app/build/outputs/apk/play/debug/anyclaw.apk
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
