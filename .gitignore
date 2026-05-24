@@ -1,0 +1,8 @@
+node_modules/
+.pnpm-store/
+dist/
+build/
+*.apk
+*.aab
+android/app/build/
+apps/android/app/build/
