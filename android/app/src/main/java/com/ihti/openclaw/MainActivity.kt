@@ -1,4 +1,4 @@
-package com.codex.mobile
+package com.ihti.openclaw
 
 import android.content.Intent
 import android.net.Uri
@@ -221,39 +221,11 @@ class MainActivity : AppCompatActivity() {
             throw RuntimeException("Failed to start network proxy")
         }
 
-        // Step 5: Authenticate via `codex login`
-        updateStatus("Checking authentication…")
-        if (!serverManager.isLoggedIn()) {
-            updateStatus("Login required — opening browser…")
-            val authOk = serverManager.loginWithUrl(
-                onLoginUrl = { url ->
-                    runOnUiThread {
-                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-                    }
-                },
-                onProgress = { msg -> updateDetail(msg) },
-            )
-            if (!authOk && !serverManager.isLoggedIn()) {
-                updateStatus("Browser login failed — enter API key manually")
-                val apiKey = requestApiKey()
-                if (apiKey.isBlank()) {
-                    throw RuntimeException("No API key provided")
-                }
-                val loginOk = serverManager.loginWithApiKey(apiKey)
-                if (!loginOk) {
-                    throw RuntimeException("Login failed — check your API key")
-                }
-            }
-        }
-        updateStatus("Authenticated")
+        // Authentication skipped — using Ollama local
 
         // Step 6: Health check
         updateStatus("Verifying API access…", "Sending test message")
-        val healthOk = serverManager.healthCheck { msg -> updateDetail(msg) }
-        if (!healthOk) {
-            throw RuntimeException("API health check failed — Codex could not reach OpenAI")
-        }
-        updateStatus("API verified")
+        // Health check skipped — local mode
 
         // Step 7: Configure and start OpenClaw
         if (serverManager.isOpenClawInstalled()) {

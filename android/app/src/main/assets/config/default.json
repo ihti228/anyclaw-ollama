@@ -1,0 +1,13 @@
+{
+  "defaultProvider": "ollama",
+  "providers": {
+    "ollama": {
+      "enabled": true,
+      "models": ["kimi-k2.6"],
+      "url": "http://localhost:11434",
+      "label": "Local Ollama"
+    }
+  },
+  "skipAuth": true,
+  "autoStart": true
+}
